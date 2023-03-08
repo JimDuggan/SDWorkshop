@@ -1,3 +1,7 @@
+# This example takes as input a sensitivity run from Stella and then
+# generates a scatter plot of two params (contacts and Vaccination Fraction)
+# to show the peak values in hospital
+
 library(readr)
 library(dplyr)
 library(ggplot2)
@@ -20,13 +24,24 @@ sd_tidy <- sd %>%
 ggplot(filter(sd_tidy,Variable=="In Hospital"),
        aes(x=Days,y=Value,colour=Run,group=Run))+geom_line()
 
-# widen the data
-
+# widen the data because we want to see each variable in its own column
 sd_wide <- sd_tidy %>%
              pivot_wider(names_from = Variable,values_from = Value)
 
-# Nest the runs
-sd_nest <- sd_wide %>%
-             group_by(Run) %>%
-             nest()
+
+# Gather the peak data for each run
+summ <- sd_wide %>%
+           group_by(Run) %>%
+           summarise(PeakH=max(`In Hospital`),
+                     Contacts=first(Contacts),
+                     VF=first(VF)) %>%
+          ungroup()
+
+# Show the tibble
+arrange(summ,desc(PeakH))
+
+# PLot the results
+ggplot(summ,aes(x=Contacts,y=VF,size=PeakH,colour=PeakH))+
+  geom_point()+
+  scale_color_gradient(low="blue", high="red")+geom_jitter()
 
