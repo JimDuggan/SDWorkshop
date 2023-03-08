@@ -4,7 +4,7 @@ library(ggplot2)
 library(stringr)
 
 # Load in the sensitivity data
-sd <- read_csv("datasets/sensitivity/LTG_Sensitivity.csv")
+sd <- read_csv("datasets/sensitivity runs/LTG_Sensitivity.csv")
 
 # Convert to tidy data format
 sd_tidy <- sd %>%
@@ -19,7 +19,6 @@ sd_tidy <- sd %>%
 ggplot(filter(sd_tidy,Variable=="Population"),
        aes(x=Year,y=Value,colour=Run,group=Run))+geom_line()
 
- 
 sum_runs <- sd_tidy %>%
               filter(Variable=="Population") %>%
               group_by(Variable,Year) %>%

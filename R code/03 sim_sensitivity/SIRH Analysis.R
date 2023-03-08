@@ -21,7 +21,7 @@ sd_tidy <- sd %>%
              separate(Run,c("TempRun","Run"),sep = " ",convert = TRUE) %>%
              select(Run,Days,Variable,Value)
 
-ggplot(filter(sd_tidy,Variable=="In Hospital"),
+p1 <- ggplot(filter(sd_tidy,Variable=="In Hospital"),
        aes(x=Days,y=Value,colour=Run,group=Run))+geom_line()
 
 # widen the data because we want to see each variable in its own column
@@ -40,8 +40,8 @@ summ <- sd_wide %>%
 # Show the tibble
 arrange(summ,desc(PeakH))
 
-# PLot the results
-ggplot(summ,aes(x=Contacts,y=VF,size=PeakH,colour=PeakH))+
-  geom_point()+
-  scale_color_gradient(low="blue", high="red")+geom_jitter()
+# Plot the results
+p2 <- ggplot(summ,aes(x=Contacts,y=VF,size=PeakH,colour=PeakH))+
+         geom_point()+
+         scale_color_gradient(low="blue", high="red")+geom_jitter()
 
