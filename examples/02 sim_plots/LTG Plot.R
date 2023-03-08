@@ -4,7 +4,7 @@ library(dplyr)
 library(bbplot)
 
 
-d <- read_csv("datasets/single run/LTG.csv")
+d <- read_csv("datasets/02 single run/LTG.csv")
 
 ggplot(d,aes(x=Year,y=Population)) + 
   geom_point()+geom_line()+bbc_style()

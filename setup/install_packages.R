@@ -1,0 +1,5 @@
+# install.packages("aimsir17")
+# install.packages("ggplot2")
+# install.packages("dplyr")
+# install.packages("tidyr")
+# install.packages("deSolve")
