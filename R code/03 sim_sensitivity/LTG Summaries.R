@@ -16,8 +16,7 @@ sd_tidy <- sd %>%
              separate(Run,c("TempRun","Run"),sep = " ",convert = TRUE) %>%
              select(Run,Year,Variable,Value)
 
-ggplot(filter(sd_tidy,Variable=="Population"),
-       aes(x=Year,y=Value,colour=Run,group=Run))+geom_line()
+ggplot(filter(sd_tidy,Variable=="Population"),aes(x=Year,y=Value,group=Run))+geom_line()
 
 sum_runs <- sd_tidy %>%
               filter(Variable=="Population") %>%
@@ -29,9 +28,7 @@ sum_runs <- sd_tidy %>%
 
 
 ggplot(sum_runs,aes(Year, Median)) + 
-  geom_ribbon(aes(ymin = Q25,
-                  ymax = Q75),
-              fill = "steelblue2") + 
+  geom_ribbon(aes(ymin = Q25,ymax = Q75),fill = "steelblue2") + 
   geom_line(color = "firebrick")
 
 

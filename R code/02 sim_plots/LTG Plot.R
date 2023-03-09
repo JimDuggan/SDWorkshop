@@ -2,13 +2,7 @@ library(ggplot2)
 library(readr)
 library(dplyr)
 
-
-
 d <- read_csv("datasets/single runs/LTG.csv")
-
-ggplot(d,aes(x=Year,y=Population)) + 
-  geom_point()+geom_line()+bbc_style()
-
 
 ggplot(d,aes(x=Year,y=Population)) + 
   geom_point()+geom_line()
@@ -20,6 +14,8 @@ d <- d %>%
 
 ggplot(d,aes(x=Year,y=Population,colour=Mode)) + 
   geom_point()+theme_light()
+
+
 
 ggplot(d,aes(x=Year,y=Population,colour=Mode)) + 
   geom_point()+geom_line()+theme_classic()
