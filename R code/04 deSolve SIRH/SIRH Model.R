@@ -80,7 +80,7 @@ p1 <- ggplot(sim,aes(x=time,y=H)) +
         geom_line()
 
 # Sensitivity sweep, modify 2 params
-NSIMS <- 100
+NSIMS <- 250
 s_contacts <- sample(3:20,NSIMS,replace = T)
 s_vacc     <- runif(NSIMS,min=0,max = 0.10)
 

@@ -2,6 +2,7 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(stringr)
+library(tidyr)
 
 # Load in the sensitivity data
 sd <- read_csv("datasets/sensitivity runs/LTG_Sensitivity.csv")
