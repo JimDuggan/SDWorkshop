@@ -9,7 +9,7 @@ There are five objectives of the workshop, which are to:
 * Run a sensitivity sweep with purrr, deSolve and dplyr
 * Create interactive simulation app using Shiny
 
-The R code examples are in the directory `R code`. 
+The R code examples are in the directory [R code](https://github.com/JimDuggan/SDWorkshop/tree/main/R%20code) 
 
 To run the code, it is recommended to setup an account on posit ([posit.cloud (formerly known as RStudio Cloud)](https://posit.cloud/)), and then use the option **New Project from Git Repository**, and enter https://github.com/JimDuggan/SDWorkshop.
 
