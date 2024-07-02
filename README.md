@@ -1,13 +1,16 @@
 # SDWorkshop
-Supporting resources for System Dynamics Society Workshop.
+Supporting resources for System Dynamics Society (2023) and NATCOR (2024) workshops
 
-There are five objectives of the workshop, which are to:
+There are five objectives of the initial workshop, which are to:
 
 * Understand data frames and plot simulation data using ggplot2
 * Analyse sensitivity runs (based on output from SD simulation tools) with dplyr
 * Build a model using deSolve
 * Run a sensitivity sweep with purrr, deSolve and dplyr
-* Create interactive simulation app using Shiny
+* Create interactive simulation app using Shiny and/or explore an SIR model with hospitalisations.
+
+
+Objective five has been updated (for NATCOR) to include a more detailed exploration of an SIR and SIRH model.
 
 The R code examples are in the directory [R code](https://github.com/JimDuggan/SDWorkshop/tree/main/R%20code) 
 
