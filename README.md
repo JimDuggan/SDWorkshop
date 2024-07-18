@@ -20,4 +20,8 @@ Once the project is created, open the file `install_packages.R` in the `setup` f
 
 Any of the R files should then run ok.
 
+For a detailed example of using R to explore system dynamics model for pandemic preparedness, see [Jair Andrade's GitHub repository](https://github.com/jandraor/preparedness), which contains all the examples in the 2024 paper published in the System Dynamics Review.
+
+Jair Andrade, Berend Beishuizen, Mart Stein, Máire Connolly and Jim Duggan. [*Preparing for pandemic response in the context of limited resources.*](https://onlinelibrary.wiley.com/doi/10.1002/sdr.1775).
+
 
