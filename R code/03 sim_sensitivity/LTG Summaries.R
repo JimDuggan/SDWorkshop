@@ -17,7 +17,8 @@ sd_tidy <- sd %>%
              separate(Run,c("TempRun","Run"),sep = " ",convert = TRUE) %>%
              select(Run,Year,Variable,Value)
 
-ggplot(filter(sd_tidy,Variable=="Population"),aes(x=Year,y=Value,group=Run))+geom_line()
+ggplot(filter(sd_tidy,Variable=="Population"),
+       aes(x=Year,y=Value,group=Run))+geom_line()
 
 sum_runs <- sd_tidy %>%
               filter(Variable=="Population") %>%
