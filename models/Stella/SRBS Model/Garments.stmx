@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>Garments</name>
+		<uuid>249974e6-706c-4a70-8f69-d9c65fd99fd1</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="3.7.1" isee:build_number="3377" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.015" isee:restore_on_start="false" method="Euler" time_units="Months" isee:instantaneous_flows="false" isee:ignore_module_errors="false" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000">
+		<start>0</start>
+		<stop>100</stop>
+		<dt reciprocal="true">4</dt>
+	</sim_specs>
+	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="map" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="false" rifp="true"/>
+	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" max_advance_time_in_ms="0" model_stops_when_players_drop="false" observer_start_page="home_page" enabled="false"/>
+	<isee:time_formats default_format="Builtin">
+		<isee:time_format name="Builtin" type="adaptive"/>
+	</isee:time_formats>
+	<isee:number_format_extenders/>
+	<default_format/>
+	<model_units>
+		<unit name="Dimensionless">
+			<eqn>1</eqn>
+			<alias>dmnl</alias>
+			<alias>unitless</alias>
+			<alias>fraction</alias>
+		</unit>
+		<unit name="Months">
+			<eqn/>
+			<alias>mo</alias>
+			<alias>month</alias>
+		</unit>
+	</model_units>
+	<model>
+		<variables>
+			<stock name="Garments in\nCirculation">
+				<eqn>Init_Garments_in_Circulation</eqn>
+				<inflow>Garments_Produced</inflow>
+				<outflow>Garments_Discarded</outflow>
+				<units>SKU</units>
+			</stock>
+			<flow name="Garments\nProduced">
+				<eqn>MAX(0, Adjustment+Expected_Garments_Discards)</eqn>
+				<non_negative/>
+				<units>SKU/Months</units>
+			</flow>
+			<flow name="Garments\nDiscarded">
+				<eqn>Garments_in_Circulation*Fashion_Obsolesence_Rate</eqn>
+				<non_negative/>
+				<units>SKU/Months</units>
+			</flow>
+			<aux name="Desired Garments\nin Circulation">
+				<eqn>100000</eqn>
+				<units>SKU</units>
+			</aux>
+			<aux name="Adjustment">
+				<eqn>(Desired_Garments_in_Circulation-Garments_in_Circulation)/Garment_Adjustment_Time</eqn>
+				<units>SKU/Months</units>
+			</aux>
+			<aux name="Garment\nAdjustment\nTime">
+				<eqn>3</eqn>
+				<units>Months</units>
+			</aux>
+			<stock name="Fashion\nObsolesence\nRate">
+				<eqn>Init_Discard_Rate</eqn>
+				<inflow>Change_in_Discard_Rate</inflow>
+				<units>1/Month</units>
+			</stock>
+			<aux name="Desired Garment\nDiscard Rate">
+				<eqn>0.5</eqn>
+				<units>1/Months</units>
+			</aux>
+			<flow name="Change in\nDiscard Rate">
+				<eqn>(Desired_Garment_Discard_Rate-Fashion_Obsolesence_Rate)*Adjustment_Fraction_Net</eqn>
+				<units>1/Month/Months</units>
+			</flow>
+			<aux name="Adjustment\nFraction\nNet">
+				<eqn>Start_Flag*Adjustment_Fraction</eqn>
+				<units>1/Months</units>
+			</aux>
+			<stock name="Expected\nGarments\nDiscards">
+				<eqn>Init_Expected_Discards</eqn>
+				<inflow>Change_in_EGD</inflow>
+				<units>SKU/Month</units>
+			</stock>
+			<flow name="Change in EGD">
+				<eqn>Smoothing_Constant*Error_Term</eqn>
+				<units>SKU/Month/Months</units>
+			</flow>
+			<aux name="Error Term">
+				<eqn>Garments_Discarded-Expected_Garments_Discards</eqn>
+				<units>SKU/Months</units>
+			</aux>
+			<aux name="Smoothing\nConstant">
+				<eqn>.5</eqn>
+				<units>1/Months</units>
+			</aux>
+			<aux name="Init Expected Discards">
+				<eqn>Init_Garments_in_Circulation*Init_Discard_Rate</eqn>
+				<units>SKU/Months</units>
+			</aux>
+			<aux name="Start Flag">
+				<eqn>IF TIME &gt;= Start_Time THEN 1 ELSE 0</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Start Time">
+				<eqn>10</eqn>
+				<units>Dimensionless</units>
+			</aux>
+			<aux name="Adjustment\nFraction">
+				<eqn>.5</eqn>
+				<units>1/Months</units>
+			</aux>
+			<aux name="Init\nDiscard\nRate">
+				<eqn>0.9</eqn>
+				<units>1/Months</units>
+			</aux>
+			<aux name="Init Garments\nin Circulation">
+				<eqn>100000</eqn>
+				<units>SKU</units>
+			</aux>
+			<stock name="Total\nDiscards">
+				<eqn>0</eqn>
+				<inflow>Increase_in_Discards</inflow>
+				<units>SKU</units>
+			</stock>
+			<flow name="Increase in\nDiscards">
+				<eqn>Garments_Discarded</eqn>
+				<non_negative/>
+				<units>SKU/Months</units>
+			</flow>
+		</variables>
+		<views>
+			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:loop_indicator color="black" background="white" vertical_text_align="top" font_size="12pt"/>
+				<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
+				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
+					<isee:series_styles>
+						<isee:series_style color="blue" thickness="1"/>
+						<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF7F00" thickness="1"/>
+						<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF007F" thickness="1"/>
+						<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#C8C8C8" thickness="1"/>
+					</isee:series_styles>
+				</graph>
+				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+				<button color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595"/>
+				<isee:annotation color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595" popup_corner_radius="0" popup_background_color="#FFFECF"/>
+				<slider color="#66CC66" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" vertical="false" isee:fancy_appearance="false" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
+				<isee:stacked_container color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="0" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
+				<isee:dual_slider color="#66CC66" background="silver" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
+				<isee:sim_speed_slider color="black" background="white"/>
+				<isee:time_slider color="#E95F74" background="silver"/>
+				<isee:pie_input color="black" background="white" font_size="12pt" legend_position="bottom" isee:transparent="false"/>
+				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom" wrap_title="true"/>
+				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<isee:dropdown_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top" wrap_title="true" isee:appearance="switch" isee:on_color="green"/>
+				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
+				<graphical_input color="black" background="#E0E0E0" font_size="12pt" isee:show_hover_tip="true"/>
+				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<lamp color="black" background="white" font_size="9pt"/>
+				<gauge color="black" background="white" font_size="9pt" needle_color="#F09F72" bar_color="#EEEEEE" bar_progress_color="black" appearance="radial" num_major_ticks="11" num_minor_ticks="1" show_numeric_value="true"/>
+				<isee:spatial_map color="black" background="white" font_size="12pt"/>
+				<isee:animation_object color="black" background="white" font_size="12pt"/>
+				<isee:navigation_widget color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="6" appearance="tabs" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
+				<isee:shape color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid" opacity="1" transparent_background="true" corner_radius="1"/>
+				<isee:selector color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
+				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+			</style>
+			<view isee:show_pages="false" background="white" page_width="774" page_height="567" isee:page_rows="2" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="45" height="35"/>
+					</stock>
+					<flow color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</flow>
+					<isee:placeholder color="#228B22" background="white" font_color="#228B22" font_size="9pt" label_side="bottom"/>
+					<module color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="55" height="45"/>
+					</module>
+					<aux color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</aux>
+					<group color="red" background="white" font_color="red" font_size="9pt"/>
+					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" isee:thickness="1"/>
+					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<isee:loop_indicator color="black" background="white" vertical_text_align="top" font_size="12pt"/>
+					<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
+					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
+						<isee:series_styles>
+							<isee:series_style color="blue" thickness="1"/>
+							<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF7F00" thickness="1"/>
+							<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF007F" thickness="1"/>
+							<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#C8C8C8" thickness="1"/>
+						</isee:series_styles>
+					</graph>
+					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+				</style>
+				<stock label_side="center" x="338.5" y="165.5" width="66.9231" height="47.6923" name="Garments in\nCirculation"/>
+				<flow x="263.519" y="179.077" width="21.0769" height="21.0769" name="Garments\nProduced">
+					<pts>
+						<pt x="209.615" y="189.615"/>
+						<pt x="338.5" y="189.615"/>
+					</pts>
+				</flow>
+				<flow x="457.827" y="187.692" name="Garments\nDiscarded">
+					<pts>
+						<pt x="405.423" y="187.692"/>
+						<pt x="534.231" y="187.692"/>
+					</pts>
+				</flow>
+				<aux background="#FF9300" x="354.885" y="65.3846" name="Desired Garments\nin Circulation"/>
+				<aux x="318.077" y="116.538" name="Adjustment"/>
+				<aux background="#FF9300" x="216.154" y="110.846" name="Garment\nAdjustment\nTime"/>
+				<connector uid="1" angle="213.111">
+					<from>Adjustment</from>
+					<to>Garments_Produced</to>
+				</connector>
+				<connector uid="2" angle="206.913">
+					<from>Desired_Garments_in_Circulation</from>
+					<to>Adjustment</to>
+				</connector>
+				<connector uid="3" angle="22.6938">
+					<from>Garment_Adjustment_Time</from>
+					<to>Adjustment</to>
+				</connector>
+				<connector uid="4" angle="87.4271">
+					<from>Garments_in_Circulation</from>
+					<to>Adjustment</to>
+				</connector>
+				<connector uid="5" angle="324.342">
+					<from>Garments_in_Circulation</from>
+					<to>Garments_Discarded</to>
+				</connector>
+				<stock label_side="center" x="512.5" y="89.5" width="59.6154" height="42.6923" name="Fashion\nObsolesence\nRate"/>
+				<aux background="#942192" x="656.538" y="29.2308" name="Desired Garment\nDiscard Rate"/>
+				<connector uid="6" angle="209.338">
+					<from>Fashion_Obsolesence_Rate</from>
+					<to>Garments_Discarded</to>
+				</connector>
+				<flow x="607.942" y="112.692" name="Change in\nDiscard Rate">
+					<pts>
+						<pt x="655.769" y="112.692"/>
+						<pt x="572.115" y="112.692"/>
+					</pts>
+				</flow>
+				<aux x="643.846" y="178.077" name="Adjustment\nFraction\nNet"/>
+				<connector uid="7" angle="144.462">
+					<from>Adjustment_Fraction_Net</from>
+					<to>Change_in_Discard_Rate</to>
+				</connector>
+				<connector uid="8" angle="204.624">
+					<from>Desired_Garment_Discard_Rate</from>
+					<to>Change_in_Discard_Rate</to>
+				</connector>
+				<stock label_side="center" x="483.654" y="297.5" width="61.9231" height="46.5385" name="Expected\nGarments\nDiscards"/>
+				<flow x="515.385" y="262.865" name="Change in EGD">
+					<pts>
+						<pt x="515.385" y="219.231"/>
+						<pt x="515.385" y="297.5"/>
+					</pts>
+				</flow>
+				<aux x="439.827" y="262.865" name="Error Term"/>
+				<connector uid="9" angle="245.282">
+					<from>Garments_Discarded</from>
+					<to>Error_Term</to>
+				</connector>
+				<connector uid="10" angle="169.38">
+					<from>Expected_Garments_Discards</from>
+					<to>Error_Term</to>
+				</connector>
+				<aux background="#FF9300" x="601.865" y="275.769" name="Smoothing\nConstant"/>
+				<connector uid="11" angle="162.322">
+					<from>Smoothing_Constant</from>
+					<to>Change_in_EGD</to>
+				</connector>
+				<connector uid="12" angle="21.9487">
+					<from>Error_Term</from>
+					<to>Change_in_EGD</to>
+				</connector>
+				<connector uid="13" angle="189.335">
+					<from>Expected_Garments_Discards</from>
+					<to>Garments_Produced</to>
+				</connector>
+				<connector uid="14" angle="326.05">
+					<from>Fashion_Obsolesence_Rate</from>
+					<to>Change_in_Discard_Rate</to>
+				</connector>
+				<aux x="591.923" y="338.846" name="Init Expected Discards"/>
+				<aux x="607.942" y="222.192" name="Start Flag"/>
+				<aux background="#FF9300" x="661.846" y="233.462" name="Start Time"/>
+				<connector uid="15" angle="184.927">
+					<from>Start_Time</from>
+					<to>Start_Flag</to>
+				</connector>
+				<connector uid="16" angle="90.4061">
+					<from>Start_Flag</from>
+					<to>Adjustment_Fraction_Net</to>
+				</connector>
+				<aux background="#942192" x="724.231" y="187.692" name="Adjustment\nFraction"/>
+				<connector uid="17" angle="163.54">
+					<from>Adjustment_Fraction</from>
+					<to>Adjustment_Fraction_Net</to>
+				</connector>
+				<aux background="#FF9300" x="668.639" y="383.568" name="Init\nDiscard\nRate"/>
+				<aux background="#FF9300" x="529.679" y="383.568" name="Init Garments\nin Circulation"/>
+				<connector uid="18" angle="356.845">
+					<from>Init_Garments_in_Circulation</from>
+					<to>Init_Expected_Discards</to>
+				</connector>
+				<connector uid="19" angle="181.007">
+					<from>Init_Discard_Rate</from>
+					<to>Init_Expected_Discards</to>
+				</connector>
+				<stock label_side="center" x="449.231" y="29.2308" name="Total\nDiscards"/>
+				<flow label_side="bottom" x="449.231" y="92.5962" name="Increase in\nDiscards">
+					<pts>
+						<pt x="449.231" y="138.462"/>
+						<pt x="449.231" y="46.7308"/>
+					</pts>
+				</flow>
+				<connector uid="20" angle="85.8657">
+					<from>Garments_Discarded</from>
+					<to>Increase_in_Discards</to>
+				</connector>
+				<stacked_container uid="21" x="20.1923" y="246.197" width="391.923" height="261.154" minimized="true">
+					<graph width="391.923" height="261.154" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Total_Discards"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="22" x="282.923" y="400" minimized="true">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Fashion_Obsolesence_Rate"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="23" x="255.827" y="350.556" minimized="true">
+					<graph width="350" height="250" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Garments_in_Circulation"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="24" x="212.108" y="262.865" minimized="true">
+					<table interval="DT" report_balances="beginning" report_flows="instantaneous" width="350" height="250">
+						<item type="time"/>
+						<item>
+							<format precision="0.01" scale_by="1"/>
+							<entity name="Total_Discards"/>
+						</item>
+					</table>
+				</stacked_container>
+			</view>
+		</views>
+	</model>
+</xmile>
+
