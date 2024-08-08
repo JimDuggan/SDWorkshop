@@ -1,4 +1,4 @@
-# SDWorkshop
+### SDWorkshop
 Supporting resources for System Dynamics Society (2023) and NATCOR (2024) workshops
 
 There are five objectives of the initial workshop, which are to:
@@ -25,3 +25,9 @@ For a detailed example of using R to explore system dynamics model for pandemic 
 Jair Andrade, Berend Beishuizen, Mart Stein, Máire Connolly and Jim Duggan. [*Preparing for pandemic response in the context of limited resources.*](https://onlinelibrary.wiley.com/doi/10.1002/sdr.1775).
 
 
+### Other Resources
+
+The model used as part of the Systems Research and Behavioural Research Special Issue from the 10th European system dynamics workshop 
+
+* [Sensitivity Analysis in R](https://github.com/JimDuggan/SDWorkshop/tree/main/R%20code/07%20SRBS) 
+* [Stella stock and flow model](https://github.com/JimDuggan/SDWorkshop/tree/main/models/Stella/SRBS%20Model)
