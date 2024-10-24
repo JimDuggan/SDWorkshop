@@ -22,24 +22,24 @@
 	<model_units/>
 	<model>
 		<variables>
-			<aux name="Total demand for\ngarments">
-				<eqn>NAN(Trend_chasing)</eqn>
+			<aux name="Total Demand for\nGarments">
+				<eqn>NAN(Trend_Chasing)</eqn>
 				<isee:delay_aux/>
 			</aux>
-			<aux name="Fashion\nobsolesence\ntime">
-				<eqn>NAN(Total_demand_for_garments,Demand_for_higher_quality_garments)</eqn>
+			<aux name="Fashion\nObsolesence\nTime">
+				<eqn>NAN(Total_Demand_for_Garments,Demand_for_Higher_Quality_Garments)</eqn>
 				<isee:delay_aux/>
 			</aux>
-			<aux name="Number of\ncollections per\nyear">
-				<eqn>NAN(Fashion_obsolesence_time)</eqn>
+			<aux name="Number of\nCollections per\nYear">
+				<eqn>NAN(Fashion_Obsolesence_Time)</eqn>
 				<isee:delay_aux/>
 			</aux>
-			<aux name="Trend\nchasing">
-				<eqn>NAN(Number_of_collections_per_year)</eqn>
+			<aux name="Trend\nChasing">
+				<eqn>NAN(Number_of_Collections_per_Year)</eqn>
 				<isee:delay_aux/>
 			</aux>
-			<aux name="Demand for higher\nquality\ngarments">
-				<eqn>NAN(Total_demand_for_garments)</eqn>
+			<aux name="Demand for Higher\nQuality\nGarments">
+				<eqn>NAN(Total_Demand_for_Garments)</eqn>
 				<isee:delay_aux/>
 			</aux>
 		</variables>
@@ -91,7 +91,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" isee:converter_size="name_only" page_width="774" page_height="567" isee:scroll_x="79.1667" zoom="240" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" isee:converter_size="name_only" page_width="822" page_height="575" isee:scroll_x="9.16667" zoom="240" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -130,37 +130,37 @@
 					</graph>
 					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 				</style>
-				<aux font_size="10pt" x="310.083" y="268.083" width="84.5" height="36" name="Total demand for\ngarments"/>
-				<aux font_size="10pt" x="411.667" y="156.75" width="66.5" height="49" name="Fashion\nobsolesence\ntime"/>
-				<connector uid="1" polarity="-" isee:polarity_placement="outside" angle="21.3179">
-					<from>Total_demand_for_garments</from>
-					<to>Fashion_obsolesence_time</to>
+				<aux font_size="10pt" x="309.083" y="268.083" width="86.5" height="36" name="Total Demand for\nGarments"/>
+				<aux font_size="10pt" x="410.667" y="156.75" width="68.5" height="49" name="Fashion\nObsolesence\nTime"/>
+				<connector uid="1" font_size="14pt" polarity="-" isee:polarity_placement="outside_stem" angle="21.3179">
+					<from>Total_Demand_for_Garments</from>
+					<to>Fashion_Obsolesence_Time</to>
 				</connector>
 				<isee:loop_indicator font_size="10pt" text="R1" orientation="counter_clockwise" uid="2" x="328.958" y="173.75" width="34.5833" height="34.1667">
 					<name>Artificial Demand</name>
 				</isee:loop_indicator>
-				<aux font_size="10pt" x="304.833" y="80.0833" width="74.5" height="49" name="Number of\ncollections per\nyear"/>
-				<connector uid="3" polarity="-" isee:polarity_placement="outside" angle="98.6901">
-					<from>Fashion_obsolesence_time</from>
-					<to>Number_of_collections_per_year</to>
+				<aux font_size="10pt" x="303.833" y="80.0833" width="76.5" height="49" name="Number of\nCollections per\nYear"/>
+				<connector uid="3" font_size="14pt" polarity="-" isee:polarity_placement="outside_stem" angle="98.6901">
+					<from>Fashion_Obsolesence_Time</from>
+					<to>Number_of_Collections_per_Year</to>
 				</connector>
-				<aux x="222.708" y="169.667" width="41.25" height="34" name="Trend\nchasing"/>
-				<connector uid="4" polarity="+" isee:polarity_placement="outside" angle="190.477">
-					<from>Number_of_collections_per_year</from>
-					<to>Trend_chasing</to>
+				<aux x="221.708" y="169.667" width="43.25" height="34" name="Trend\nChasing"/>
+				<connector uid="4" font_size="14pt" polarity="+" isee:polarity_placement="outside_stem" angle="190.477">
+					<from>Number_of_Collections_per_Year</from>
+					<to>Trend_Chasing</to>
 				</connector>
-				<connector uid="5" polarity="+" isee:polarity_placement="outside" angle="279.941">
-					<from>Trend_chasing</from>
-					<to>Total_demand_for_garments</to>
+				<connector uid="5" font_size="14pt" isee:thickness="1" polarity="+" isee:polarity_placement="outside_stem" angle="279.941">
+					<from>Trend_Chasing</from>
+					<to>Total_Demand_for_Garments</to>
 				</connector>
-				<aux x="490.833" y="232.417" width="84.25" height="46" name="Demand for higher\nquality\ngarments"/>
-				<connector uid="6" color="#FF2600" font_color="#FF2600" isee:thickness="2" polarity="+" isee:polarity_placement="outside" isee:type="info" angle="340.43">
-					<from>Total_demand_for_garments</from>
-					<to>Demand_for_higher_quality_garments</to>
+				<aux x="489.833" y="232.417" width="86.25" height="46" name="Demand for Higher\nQuality\nGarments"/>
+				<connector uid="6" color="#FF2600" font_color="#FF2600" font_size="14pt" isee:thickness="1" polarity="+" isee:polarity_placement="outside_stem" isee:type="info" angle="340.43">
+					<from>Total_Demand_for_Garments</from>
+					<to>Demand_for_Higher_Quality_Garments</to>
 				</connector>
-				<connector uid="7" color="#FF2600" font_color="#FF2600" isee:thickness="2" polarity="+" isee:polarity_placement="outside" isee:type="info" angle="97.6697">
-					<from>Demand_for_higher_quality_garments</from>
-					<to>Fashion_obsolesence_time</to>
+				<connector uid="7" color="#FF2600" font_color="#FF2600" font_size="14pt" isee:thickness="1" polarity="+" isee:polarity_placement="outside_stem" isee:type="info" angle="97.6697">
+					<from>Demand_for_Higher_Quality_Garments</from>
+					<to>Fashion_Obsolesence_Time</to>
 				</connector>
 				<isee:loop_indicator font_size="10pt" text="B6" orientation="counter_clockwise" uid="8" x="449.375" y="219.333" width="34.5833" height="36.6667">
 					<name>Quality not 

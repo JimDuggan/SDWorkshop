@@ -61,7 +61,9 @@ p6 <- ggplot(dplyr::sample_n(max_TD,250),aes(x=AF,y=DGDD,color=MTD,size=MTD))+ge
   ylab("Desired Fashion Obsolescence Rate")+
   xlab("Adjustment Fraction")+
   # labs(title=paste0("Sensitivity Analysis"))+
-  theme(title = element_text(size=9))
+  theme(title = element_text(size=9))+
+  labs(colour="Maximum Total Discards",
+       size="Maximum Total Discards")
 
 
 p7 <- ggplot(max_TD,aes(x=AF,y=DGDD,z=MTD))+geom_contour_filled()+
